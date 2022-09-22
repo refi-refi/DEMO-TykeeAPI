@@ -1,2 +1,2 @@
-# DEMO-TykeeServer
-Open-source version TykeeServer
+# DEMO-TykeeAPI
+Open-source version of TykeeAPI
