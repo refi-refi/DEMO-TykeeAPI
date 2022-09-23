@@ -38,4 +38,13 @@ public class CandleController {
             return candleRepository.save(candle);
         }).orElseThrow(() -> new SymbolNotFoundException(symbolId));
     }
+
+    @PostMapping("/symbols/{symbolId}/candles/batch")
+    public List<Candle> createBatch(@PathVariable(value = "symbolId") Long symbolId,
+        @Valid @RequestBody List<Candle> candles) {
+        return symbolRepository.findById(symbolId).map(symbol -> {
+            candles.forEach(candle -> candle.setSymbol(symbol));
+            return candleRepository.saveAll(candles);
+        }).orElseThrow(() -> new SymbolNotFoundException(symbolId));
+    }
 }

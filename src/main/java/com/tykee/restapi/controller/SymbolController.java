@@ -39,4 +39,9 @@ public class SymbolController {
         return symbolRepository.save(symbol);
     }
 
+    @PostMapping("/symbols/batch")
+    public List<Symbol> createBatch(@Valid @RequestBody List<Symbol> symbols) {
+        return symbolRepository.saveAll(symbols);
+    }
+
 }

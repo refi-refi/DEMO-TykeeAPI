@@ -1,6 +1,7 @@
 package com.tykee.restapi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -30,12 +31,14 @@ public class Candle extends AuditModel {
     @NotNull
     @Getter
     @Setter
-    private long start_ts;
+    @Column(name = "start_ts_utc", unique = true)
+    private long startTs;
 
     @NotNull
     @Getter
     @Setter
-    private long end_ts;
+    @Column(name = "end_ts_utc", unique = true)
+    private long endTs;
 
     @NotNull
     @Getter
