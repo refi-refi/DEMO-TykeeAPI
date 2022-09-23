@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +20,12 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name = "candles")
+@Table(
+    name = "candles",
+    uniqueConstraints = @UniqueConstraint(
+        columnNames = {"symbol_id", "start_ts_utc", "end_ts_utc"}
+    )
+)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Candle extends AuditModel {
@@ -31,13 +37,13 @@ public class Candle extends AuditModel {
     @NotNull
     @Getter
     @Setter
-    @Column(name = "start_ts_utc", unique = true)
+    @Column(name = "start_ts_utc")
     private long startTs;
 
     @NotNull
     @Getter
     @Setter
-    @Column(name = "end_ts_utc", unique = true)
+    @Column(name = "end_ts_utc")
     private long endTs;
 
     @NotNull

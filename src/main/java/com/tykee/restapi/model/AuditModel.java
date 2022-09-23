@@ -23,14 +23,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public abstract class AuditModel implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @CreatedDate
     @Getter
     @Setter
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at", nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @LastModifiedDate
     @Getter
     @Setter
