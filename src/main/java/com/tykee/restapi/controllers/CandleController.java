@@ -1,9 +1,9 @@
-package com.tykee.restapi.controller;
+package com.tykee.restapi.controllers;
 
-import com.tykee.restapi.exception.SymbolNotFoundException;
-import com.tykee.restapi.model.Candle;
-import com.tykee.restapi.repository.CandleRepository;
-import com.tykee.restapi.repository.SymbolRepository;
+import com.tykee.restapi.exceptions.SymbolNotFoundException;
+import com.tykee.restapi.models.Candle;
+import com.tykee.restapi.repositories.CandleRepository;
+import com.tykee.restapi.repositories.SymbolRepository;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,13 @@ public class CandleController {
     @GetMapping("/symbols/{symbolId}/candles")
     public List<Candle> getCandlesBySymbolId(@PathVariable(value = "symbolId") Long symbolId) {
         return candleRepository.findBySymbolId(symbolId);
+    }
+
+    @GetMapping("/symbols/{symbolId}/candles/{fromTimestamp}/{toTimestamp}")
+    public List<Candle> getCandlesBySymbolIdAndTimestamp(@PathVariable(value = "symbolId") Long symbolId,
+                                                         @PathVariable(value = "fromTimestamp") Long fromTimestamp,
+                                                         @PathVariable(value = "toTimestamp") Long toTimestamp) {
+        return candleRepository.findBySymbolIdAndEndTsBetweenOrderByEndTs(symbolId, fromTimestamp, toTimestamp);
     }
 
     @PostMapping("/symbols/{symbolId}/candles")

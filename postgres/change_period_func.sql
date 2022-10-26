@@ -1,26 +1,26 @@
-DROP FUNCTION IF EXISTS "rest".change_period;
-CREATE OR REPLACE FUNCTION "rest".change_period (
-		_symbol_id INTEGER
-		,_period_id INTEGER
-		,_date_from INTEGER
-		,_date_to INTEGER
+\c forex;
+CREATE OR REPLACE FUNCTION rest.change_period (
+		_symbol_id BIGINT
+		,_period_id BIGINT
+		,_date_from BIGINT
+		,_date_to BIGINT
 		)
 	RETURNS TABLE (
-			start_ts_utc INTEGER
-			,end_ts_utc INTEGER
-			,OPEN INTEGER
-			,high INTEGER
-			,low INTEGER
-			,CLOSE INTEGER
-			,spread INTEGER
-			,volume INTEGER
+			start_ts_utc BIGINT
+			,end_ts_utc BIGINT
+			,open INT
+			,high INT
+			,low INT
+			,close INT
+			,spread INT
+			,volume INT
 			) LANGUAGE plpgsql AS
 $FUNC$
 DECLARE
-_period_minute INTEGER;
-_period_hour INTEGER;
-_period_day INTEGER;
-_period_month INTEGER;
+_period_minute INT;
+_period_hour INT;
+_period_day INT;
+_period_month INT;
 _period_interval interval;
 
 BEGIN
@@ -29,7 +29,7 @@ BEGIN
     INTO
         _period_minute, _period_hour, _period_day, _period_month, _period_interval
     FROM rest.periods p
-    WHERE id = _period_id;
+    WHERE p.id = _period_id;
 
 	RETURN QUERY
 
@@ -60,7 +60,7 @@ BEGIN
 			,c.close
 			,c.volume
 			,c.spread
-		FROM rest.candles c
+		FROM rest.history c
 		WHERE c.symbol_id = _symbol_id
 			AND c.end_ts_utc BETWEEN _date_from
 				AND _date_to
